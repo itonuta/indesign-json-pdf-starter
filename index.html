@@ -25,3 +25,52 @@
         <label>
           <span>Output file name (optional)</span>
           <input type="text" name="outputName" placeholder="menu" />
+          <small class="muted">Used for the PDF filename. Letters, numbers, dashes/underscores only.</small>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Items</legend>
+        <div class="row">
+          <label>
+            <span>Dish 1 *</span>
+            <input type="text" name="dish1" required placeholder="Pumpkin Soup" />
+          </label>
+          <label>
+            <span>Price 1 *</span>
+            <input type="text" name="price1" required placeholder="€6.50" />
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            <span>Dish 2 *</span>
+            <input type="text" name="dish2" required placeholder="Mushroom Risotto" />
+          </label>
+          <label>
+            <span>Price 2 *</span>
+            <input type="text" name="price2" required placeholder="€13.00" />
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit">Download JSON</button>
+        <button type="button" id="resetBtn" class="ghost">Reset</button>
+      </div>
+    </form>
+
+    <details id="previewWrap">
+      <summary>Preview JSON</summary>
+      <pre id="preview" aria-live="polite"></pre>
+    </details>
+
+    <hr />
+    <p class="muted small">
+      How to use: download <code>menu.json</code>, put it into <code>data/menu.json</code> in the repo,
+      then run <code>scripts/fill_template.jsx</code> inside InDesign to export the PDF.
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

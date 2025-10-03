@@ -1,0 +1,11 @@
+# macOS / Finder
+.DS_Store
+
+# InDesign
+*.idlk
+*.indb
+*.idml (Converted)*
+*.idms
+
+# Output PDFs
+/output/*.pdf

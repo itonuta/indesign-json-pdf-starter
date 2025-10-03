@@ -1,0 +1,9 @@
+{
+  "title": "Autumn Specials",
+  "restaurant": "Ristorante Kamp",
+  "dish1": "Pumpkin Soup",
+  "price1": "€6.50",
+  "dish2": "Mushroom Risotto",
+  "price2": "€13.00",
+  "outputName": "menu"
+}

@@ -1,0 +1,10 @@
+Create your A4 InDesign document here named exactly:
+menu_template.indd
+
+Place these placeholders (as plain text) in text frames:
+  {{title}}
+  {{restaurant}}
+  {{dish1}} — {{price1}}
+  {{dish2}} — {{price2}}
+
+Save the file and then run scripts/fill_template.jsx in InDesign.

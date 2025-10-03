@@ -1,4 +1,7 @@
 (function () {
+  // >>>> 1) https://script.google.com/macros/s/AKfycbzcSgd9vF8NJ1evq98u8tY2cYGZm7b_bhU7tKuZmSYzjpf7uXVPoVl7qK6UeSbXgRxJMw/exec <<<<
+  const EXEC_URL = 'https://script.google.com/macros/s/AKfycbzcSgd9vF8NJ1evq98u8tY2cYGZm7b_bhU7tKuZmSYzjpf7uXVPoVl7qK6UeSbXgRxJMw/exec';
+
   const form = document.getElementById('menuForm');
   const preview = document.getElementById('preview');
   const previewWrap = document.getElementById('previewWrap');
@@ -8,9 +11,19 @@
     return String(s || '').replace(/[^\w\-]+/g, '_').replace(/^_+|_+$/g, '');
   }
 
-  function buildDataObj() {
+  function shortCode() {
+    if (crypto && crypto.getRandomValues) {
+      const arr = new Uint8Array(6);
+      crypto.getRandomValues(arr);
+      return Array.from(arr).map(n => (n % 36).toString(36)).join('');
+    }
+    return Math.random().toString(36).slice(2, 8);
+  }
+
+  function buildDataObj(code) {
     const fd = new FormData(form);
     const data = {
+      _id: code, // important: used as retrieval key
       title: (fd.get('title') || '').trim(),
       restaurant: (fd.get('restaurant') || '').trim(),
       dish1: (fd.get('dish1') || '').trim(),
@@ -24,8 +37,11 @@
   }
 
   function updatePreview() {
-    const data = buildDataObj();
-    preview.textContent = JSON.stringify(data, null, 2);
+    // Preview reflects what will be uploaded (without the _id)
+    const code = document.getElementById('code').value || 'xxxxxx';
+    const data = buildDataObj(code);
+    const { _id, ...visible } = data;
+    preview.textContent = JSON.stringify(visible, null, 2);
   }
 
   function validateRequired(fields) {
@@ -43,35 +59,61 @@
     return ok;
   }
 
-  form.addEventListener('input', updatePreview);
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  // Add a little UI for the code + resulting URL
+  const codeRow = document.createElement('div');
+  codeRow.className = 'row';
+  codeRow.innerHTML = `
+    <label>
+      <span>Code (share this code)</span>
+      <input type="text" id="code" readonly />
+      <small class="muted">We’ll use this to fetch your data in InDesign.</small>
+    </label>
+    <label>
+      <span>Fetch URL (for your InDesign script)</span>
+      <input type="text" id="fetchUrl" readonly />
+      <small class="muted">Paste into the script prompt (or use the code only if you set a default EXEC_URL there).</small>
+    </label>`;
+  form.appendChild(codeRow);
 
+  function regenerateCodeAndUrl() {
+    const code = shortCode();
+    const codeEl = document.getElementById('code');
+    const urlEl = document.getElementById('fetchUrl');
+    codeEl.value = code;
+    urlEl.value = EXEC_URL + '?id=' + encodeURIComponent(code);
+    updatePreview();
+  }
+
+  form.addEventListener('input', updatePreview);
+  resetBtn.addEventListener('click', () => {
+    form.reset();
+    regenerateCodeAndUrl();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
     const required = ['title','restaurant','dish1','price1','dish2','price2'];
     if (!validateRequired(required)) return;
 
-    const data = buildDataObj();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const filename = 'menu.json';
+    const code = document.getElementById('code').value || shortCode();
+    const data = buildDataObj(code);
 
-    // Download in browser
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(a.href);
-    a.remove();
-
-    // Open preview panel (optional)
-    if (!previewWrap.open) previewWrap.open = true;
+    // Upload using "no-cors" + text/plain to avoid preflight/CORS.
+    // We can’t read the response, but that’s fine; the fetch URL is deterministic.
+    try {
+      await fetch(EXEC_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify(data)
+      });
+      if (!previewWrap.open) previewWrap.open = true;
+      alert('Uploaded! Share the Code or Fetch URL with your designer.');
+    } catch (err) {
+      alert('Upload failed: ' + err);
+    }
   });
 
-  resetBtn.addEventListener('click', () => {
-    form.reset();
-    updatePreview();
-  });
-
-  // Initial preview
-  updatePreview();
+  // Initialize
+  regenerateCodeAndUrl();
 })();

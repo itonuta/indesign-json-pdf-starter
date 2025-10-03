@@ -11,7 +11,7 @@
     app.scriptPreferences.userInteractionLevel = UserInteractionLevels.INTERACT_WITH_ALL;
 
     // === CONFIG: set your Apps Script EXEC_URL to allow "code only" input ===
-    var DEFAULT_EXEC_URL = "PASTE_YOUR_EXEC_URL_HERE"; // e.g. https://script.google.com/macros/s/AKfycb.../exec
+    var DEFAULT_EXEC_URL = "https://script.google.com/macros/s/AKfycbzcSgd9vF8NJ1evq98u8tY2cYGZm7b_bhU7tKuZmSYzjpf7uXVPoVl7qK6UeSbXgRxJMw/exec"; //
     // var SHARED_KEY = "optional-shared-key"; // if you enabled it, also append to fetch URL
 
     function repoRootFolder() {

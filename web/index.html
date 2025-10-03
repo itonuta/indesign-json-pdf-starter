@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Menu Data → JSON</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <main class="container">
+    <h1>Fill your menu</h1>
+    <p class="muted">This creates a JSON file compatible with our InDesign template.</p>
+
+    <form id="menuForm" novalidate>
+      <fieldset>
+        <legend>General</legend>
+        <label>
+          <span>Title *</span>
+          <input type="text" name="title" required placeholder="Autumn Specials" />
+        </label>
+        <label>
+          <span>Restaurant *</span>
+          <input type="text" name="restaurant" required placeholder="Ristorante Kamp" />
+        </label>
+        <label>
+          <span>Output file name (optional)</span>
+          <input type="text" name="outputName" placeholder="menu" />

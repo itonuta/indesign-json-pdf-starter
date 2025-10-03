@@ -1,6 +1,6 @@
 (function () {
-  // >>>> 1) https://script.google.com/macros/s/AKfycbzcSgd9vF8NJ1evq98u8tY2cYGZm7b_bhU7tKuZmSYzjpf7uXVPoVl7qK6UeSbXgRxJMw/exec <<<<
-  const EXEC_URL = 'https://script.google.com/macros/s/AKfycbzcSgd9vF8NJ1evq98u8tY2cYGZm7b_bhU7tKuZmSYzjpf7uXVPoVl7qK6UeSbXgRxJMw/exec';
+  // >>>> 1) https://script.google.com/macros/s/AKfycbwDPk5UhYAnTXOPOSRHGTLl9mnfxMaqXRy38UQFEXR6aGKxRX0DKpne_OpQiagk1umE/exec <<<<
+  const EXEC_URL = 'https://script.google.com/macros/s/AKfycbwDPk5UhYAnTXOPOSRHGTLl9mnfxMaqXRy38UQFEXR6aGKxRX0DKpne_OpQiagk1umE/exec'; // e.g. https://script.google.com/macros/s/AKfycb.../exec
 
   const form = document.getElementById('menuForm');
   const preview = document.getElementById('preview');
